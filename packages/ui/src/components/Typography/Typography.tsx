@@ -32,15 +32,13 @@ export interface TypographyProps
 
 const Typography = React.forwardRef<HTMLDivElement, TypographyProps>(
   ({ className, variant, as, ...props }, ref) => {
-    const Comp = as || variant || 'div';
+    const Comp = as || (variant as keyof JSX.IntrinsicElements) || 'div';
 
-    return (
-      <Comp
-        className={cn(typographyVariants({ variant, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
+    return React.createElement(Comp, {
+      className: cn(typographyVariants({ variant, className })),
+      ref,
+      ...props,
+    });
   }
 );
 
